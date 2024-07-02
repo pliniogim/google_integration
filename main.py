@@ -35,23 +35,31 @@ print(list_exercises[0]["nf_calories"])
 url = key.SH_ENDPOINT
 print(url)
 
-headers_sh = {
-    "Authorization": key.SH_BASIC_AUTH,
-}
+# Basic Authentication
+# headers_sh = {
+#     "Authorization": key.SH_BASIC_AUTH,
+# }
 
+# BEARER Authentication
+headers_sh = {
+    "Authorization": key.SH_BEARER_AUTH,
+}
 
 # Date	Time	Exercise	Duration	Calories
 params_sh = {
     "workout": {
         "date": str(date),
         "time": str(time),
-        "exercise": list_exercises[0]["name"],
+        "exercise": list_exercises[0]["name"].title(),
         "duration": list_exercises[0]["duration_min"],
         "calories": list_exercises[0]["nf_calories"],
     }
 }
 response_online = requests.post(url=f"{url}",
-                                json=params_sh)
+                                json=params_sh, headers=headers_sh)
+
 response_online.raise_for_status()
 data = response_online.json()
 print(data)
+
+# NOT TODO os.environ
